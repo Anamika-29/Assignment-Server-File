@@ -87,7 +87,10 @@ else{
 });
 
 app.get("/purchases", function(req,res){
-      let shop = +req.query.shop.substring(2,3);
+    let shop = req.query.shop;
+    if(shop){
+         shop = +req.query.shop.substring(2,3);
+    }
       let product = req.query.product;
     let sort = req.query.sort;
    
