@@ -87,18 +87,28 @@ else{
 });
 
 app.get("/purchases", function(req,res){
-      let shop = +req.query.shop;
-      let product = +req.query.product;
+      let shop = +req.query.shop.substring(2,3);
+      let product = req.query.product;
     let sort = req.query.sort;
    
     let arr1 = purchases;
     if(shop){
         arr1 = arr1.filter(st=>st.shopId===shop); 
-        console.log(arr1)
     }
-    if(product){
-        arr1 = arr1.filter(st=>st.productid===product); 
-    }
+
+    if(product)
+  {
+    product= product.split(',');
+    let productArr = [];
+      for(let i = 0; i<product.length;i++){
+        productArr.push(parseInt(product[i].substring(2,3)));
+      }
+     arr1= arr1.filter(obj=>
+        productArr.find(obj1=> obj1===obj.productid)
+   );
+    arr1= arr1;
+  }
+
     
     if(sort==="QtyAsc"){
         arr1.sort((p1,p2)=>p1.quantity-p2.quantity);
